@@ -1,0 +1,9 @@
+Blasting:
+ExampleBlasting.sh
+Blast_and_Retrieve.pl
+Blast_Output_Concatenation.pl
+DNA_Blast_tBlastx.pl
+Pres_Abs_Sorter.pl
+Sort_Output_Into_Folders.pl
+Sort_Retrieved_Hits_ffn.pl
+

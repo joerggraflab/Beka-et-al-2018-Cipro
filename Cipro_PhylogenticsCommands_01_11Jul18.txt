@@ -1,0 +1,42 @@
+
+#RAxML command with GTR model + CAT approximation
+for filn in *.phy; do raxmlHPC -f a -p 12345 -s $filn -m GTRCAT -x 12345 -N 100 -n $filn; done;
+
+#RAxML command with GTR model + Gamma distribution + invariable sites
+for filn in *.phy; do raxmlHPC -f a -p 12345 -s $filn -m GTRGAMMAI -x 12345 -N 100 -n $filn; done;
+
+
+
+
+#MrBayes command block for nexus file using GTR + GAMMA model
+
+begin mrbayes;
+	set autoclose=yes nowarn=yes;
+	lset nst=6 rates=gamma; 
+	mcmcp ngen=2000000 samplefreq=10000 printfreq=10000 nchains=4 nruns=4 autotune=yes relburnin=yes burninfrac=0.25 savebrlens=yes checkpoint=yes append=no;
+	outgroup A_veronii_Hm21.gbk;
+end;
+mcmc;
+sump relburnin=yes burnin=0.25;
+sumt relburnin=yes burnin=0.25;
+
+
+
+
+#R: Phangorn/Ape distance calculation from alignment
+
+#Libraries:
+library(MASS)
+library(Ape)
+library(Phangorn)
+
+#using fasta-formatted alignment:
+fasta_aln <- read.dna(file="<>",format="fasta")
+
+#Calc distance (raw = p_distance):
+p_dist_pairdel <- dist.dna(fasta_aln,model="N",pairwise.deletion = TRUE)
+
+#write output
+write.matrix(p_dist,file="<>",sep="\t")
+
+
